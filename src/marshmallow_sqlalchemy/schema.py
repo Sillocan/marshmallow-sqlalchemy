@@ -51,6 +51,7 @@ class SQLAlchemySchemaOpts(LoadInstanceMixin.Opts, SchemaOpts):
     - ``transient``: Whether to load model instances in a transient state (effectively ignoring the session).
         Only relevant when ``load_instance`` is `True`.
     - ``model_converter``: `ModelConverter` class to use for converting the SQLAlchemy model to marshmallow fields.
+    - ``options``: SQLAlchemy loader options to apply when retrieving an existing record.
     """
 
     def __init__(self, meta, *args, **kwargs):
@@ -61,6 +62,7 @@ class SQLAlchemySchemaOpts(LoadInstanceMixin.Opts, SchemaOpts):
         if self.model is not None and self.table is not None:
             raise ValueError("Cannot set both `model` and `table` options.")
         self.model_converter = getattr(meta, "model_converter", ModelConverter)
+        self.options = getattr(meta, "options", None)
 
 
 class SQLAlchemyAutoSchemaOpts(SQLAlchemySchemaOpts):
